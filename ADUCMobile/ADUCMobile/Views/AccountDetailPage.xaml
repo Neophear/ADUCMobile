@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ADUCMobile.Views.AccountDetailPage"
+             Title="{Binding Title}">
+    <StackLayout Spacing="20" Padding="15">
+        <Label Text="Konto:" FontSize="Medium" />
+        <Label Text="{Binding Account.AccountName}" FontSize="Small"/>
+        <Label Text="Fornavn:" FontSize="Medium" />
+        <Label Text="{Binding Account.FirstName}" FontSize="Small"/>
+        <Label Text="Efternavn:" FontSize="Medium" />
+        <Label Text="{Binding Account.LastName}" FontSize="Small"/>
+    </StackLayout>
+</ContentPage>

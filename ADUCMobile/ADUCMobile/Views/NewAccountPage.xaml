@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ADUCMobile.Views.NewAccountPage"
+             Title="Ny konto">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Cancel" Clicked="Cancel_Clicked">
+            <ToolbarItem.Icon>
+                <OnPlatform x:TypeArguments="FileImageSource">
+                    <On Platform="UWP" Value="cancel.png"/>
+                </OnPlatform>
+            </ToolbarItem.Icon>
+        </ToolbarItem>
+        <ToolbarItem Text="Save" Clicked="Save_Clicked">
+            <ToolbarItem.Icon>
+                <OnPlatform x:TypeArguments="FileImageSource">
+                    <On Platform="UWP" Value="save.png"/>
+                </OnPlatform>
+            </ToolbarItem.Icon>
+        </ToolbarItem>
+    </ContentPage.ToolbarItems>
+
+    <ContentPage.Content>
+        <StackLayout Spacing="20" Padding="15">
+            <Label Text="AccountName" FontSize="Medium" />
+            <Entry Text="{Binding Account.AccountName}" FontSize="Small" />
+            <Label Text="FirstName" FontSize="Medium" />
+            <Editor Text="{Binding Account.FirstName}" FontSize="Small" Margin="0" />
+            <Label Text="LastName" FontSize="Medium" />
+            <Editor Text="{Binding Account.LastName}" FontSize="Small" Margin="0" />
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
