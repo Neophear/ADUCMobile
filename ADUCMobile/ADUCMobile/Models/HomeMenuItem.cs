@@ -6,7 +6,6 @@ namespace ADUCMobile.Models
 {
     public enum MenuItemType
     {
-        Browse,
         Stiig,
         About
     }

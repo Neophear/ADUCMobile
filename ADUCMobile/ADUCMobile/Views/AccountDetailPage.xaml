@@ -3,12 +3,32 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="ADUCMobile.Views.AccountDetailPage"
              Title="{Binding Title}">
-    <StackLayout Spacing="20" Padding="15">
-        <Label Text="Konto:" FontSize="Medium" />
-        <Label Text="{Binding Account.AccountName}" FontSize="Small"/>
-        <Label Text="Fornavn:" FontSize="Medium" />
-        <Label Text="{Binding Account.FirstName}" FontSize="Small"/>
-        <Label Text="Efternavn:" FontSize="Medium" />
-        <Label Text="{Binding Account.LastName}" FontSize="Small"/>
-    </StackLayout>
+    <ScrollView>
+        <StackLayout Spacing="5" Padding="15">
+            <StackLayout Padding="0,0,0,30">
+                <Label Text="Konto" FontSize="Medium" />
+                <Label Text="{Binding Account.AccountName}" />
+                <Label Text="Navn" FontSize="Medium" />
+                <Label Text="{Binding Account.FullName}" />
+                <Grid>
+                    <Label Text="Aktiv" />
+                    <Switch Grid.Column="1" IsToggled="{Binding Account.Enabled}" />
+                </Grid>
+                <Grid>
+                    <Label Text="Låst" />
+                    <Switch Grid.Column="1" IsEnabled="{Binding Account.Locked}" IsToggled="{Binding Account.Locked}" />
+                </Grid>
+                <Label Text="Password" />
+                <Label Text="Password ændres ikke hvis feltet er tomt" FontSize="Micro" />
+                <Entry x:Name="Password" TextChanged="Password_TextChanged" Text="{Binding Account.Password}" />
+                <Button Text="Generér" Clicked="GeneratePassword" />
+                <Grid>
+                    <Label HorizontalOptions="Fill" Text="Skal skifte password" />
+                    <Switch x:Name="ChangePasswordAtLogon" Grid.Column="1" IsToggled="{Binding Account.ChangePasswordAtLogon}" />
+                </Grid>
+            </StackLayout>
+            <Button Command="{Binding SubmitCommand}" Text="Gem" TextColor="White"
+                    HorizontalOptions="FillAndExpand" BackgroundColor="#088da5" />
+        </StackLayout>
+    </ScrollView>
 </ContentPage>

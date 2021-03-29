@@ -12,7 +12,7 @@ namespace ADUCMobile.ViewModels
 {
     public class BaseViewModel : INotifyPropertyChanged
     {
-        public IDataStore<Account> DataStore => DependencyService.Get<IDataStore<Account>>() ?? new MockDataStore();
+        public IDataStore<Account> DataStore => DependencyService.Get<IDataStore<Account>>();
 
         bool isBusy = false;
         public bool IsBusy

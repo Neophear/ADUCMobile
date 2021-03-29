@@ -1,24 +1,30 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="ADUCMobile.Views.LoginPage"
-             Title="Log ind">
+             x:Class="ADUCMobile.Views.SearchPage"
+             Title="Søg">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Log ud" Clicked="Logout_Clicked">
+            <ToolbarItem.Icon>
+                <OnPlatform x:TypeArguments="FileImageSource">
+                    <On Platform="UWP" Value="add.png"/>
+                </OnPlatform>
+            </ToolbarItem.Icon>
+        </ToolbarItem>
+    </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <StackLayout Orientation="Vertical" Padding="30" Spacing="40">
             <Frame CornerRadius="5" HorizontalOptions="FillAndExpand" BackgroundColor="#BF043055" VerticalOptions="Start" HasShadow="True" Padding="0">
                 <StackLayout Orientation="Vertical" Spacing="10" Padding="20">
-                    <Entry x:Name="Username" Text="{Binding Username}" Placeholder="Brugernavn"
+                    <Entry x:Name="AccountName" Text="{Binding AccountName}" Placeholder="Brugernavn"
                            PlaceholderColor="White" HeightRequest="40"
-                           TextColor="White" />
-                    <Entry x:Name="Password" Text="{Binding Password}" Placeholder="Password"
-                           PlaceholderColor="White" HeightRequest="40"
-                           IsPassword="True"
                            TextColor="White" />
                 </StackLayout>
             </Frame>
             <Button Command="{Binding SubmitCommand}" IsEnabled="{Binding IsReady}"
-                    Text="Log ind" TextColor="White" FontAttributes="Bold" FontSize="Large"
+                    Text="Søg" TextColor="White" FontAttributes="Bold" FontSize="Large"
                     HorizontalOptions="FillAndExpand" BackgroundColor="#088da5" />
+            <Label HorizontalOptions="Center" x:Name="lblFooter" />
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

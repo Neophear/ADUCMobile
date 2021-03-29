@@ -1,32 +1,32 @@
-﻿using System;
-using Xamarin.Forms;
+﻿using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using ADUCMobile.Services;
 using ADUCMobile.Views;
+using ADUCMobile.Helpers;
+using ADUCMobile.Interfaces;
 
 [assembly: XamlCompilation(XamlCompilationOptions.Compile)]
 namespace ADUCMobile
 {
     public partial class App : Application
     {
-        public static string ADUCBackendUrl = "http://192.168.1.171:45455";
-        public static bool UseMockDataStore = false;
+        public static string ADUCBackendUrl = "https://aducbs:4870";
+        public static string Version = "1.2";
 
         public App()
         {
             InitializeComponent();
+            
+            DependencyService.Register<BackendDataStore>();
+            AppSettings.GetInstance().Communicator = DependencyService.Get<ICommunicator>();
 
-            if (UseMockDataStore)
-                DependencyService.Register<MockDataStore>();
-            else
-                DependencyService.Register<BackendDataStore>();
-
-            MainPage = new MainPage();
+            MainPage = new NavigationPage(new SearchPage());
+            MainPage.Navigation.PushModalAsync(new NavigationPage(new LoginPage()));
         }
 
         protected override void OnStart()
         {
-            // Handle when your app starts
+
         }
 
         protected override void OnSleep()

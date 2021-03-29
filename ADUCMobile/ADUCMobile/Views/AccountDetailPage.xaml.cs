@@ -1,10 +1,7 @@
-﻿using ADUCMobile.Models;
+﻿using ADUCMobile.Helpers;
+using ADUCMobile.Models;
 using ADUCMobile.ViewModels;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -14,27 +11,27 @@ namespace ADUCMobile.Views
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class AccountDetailPage : ContentPage
 	{
-        AccountDetailViewModel viewModel;
-		public AccountDetailPage(AccountDetailViewModel viewModel)
+        RandomPassword randomPassword = new RandomPassword(1, -1, 1, -1, 0, 0, 1, -1);
+
+		public AccountDetailPage(Account account)
 		{
-			InitializeComponent ();
-
-            BindingContext = this.viewModel = viewModel;
-		}
-
-        public AccountDetailPage()
-        {
+            AccountDetailViewModel vm = new AccountDetailViewModel(account);
+            BindingContext = vm;
+            vm.UpdateSuccesfull += () => DisplayAlert("Succes", "Brugeren blev gemt", "OK");
+            vm.UpdateFailed += (Exception e) => DisplayAlert("Fejl", e.Message, "OK");
             InitializeComponent();
-
-            var account = new Account
-            {
-                AccountName = "Konto1",
-                FirstName = "Firstname1",
-                LastName = "Lastname1"
-            };
-
-            viewModel = new AccountDetailViewModel(account);
-            BindingContext = viewModel;
         }
-	}
+
+        private void GeneratePassword(object sender, EventArgs e)
+        {
+            Password.Text = randomPassword.GeneratePassword(9);
+            ChangePasswordAtLogon.IsToggled = false;
+        }
+
+        private void Password_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (!String.IsNullOrEmpty(e.NewTextValue))
+                ChangePasswordAtLogon.IsToggled = true;
+        }
+    }
 }

@@ -8,6 +8,8 @@ using Microsoft.AspNetCore.Mvc;
 
 using ADUCMobile.ADUCBackendService.Models;
 using ADUCMobile.ADUCBackendService.Services;
+using System.Security.Claims;
+using ADUCBackendService.Models.Exceptions;
 
 namespace ADUCMobile.ADUCBackendService.Controllers
 {
@@ -26,14 +28,56 @@ namespace ADUCMobile.ADUCBackendService.Controllers
 
         [AllowAnonymous]
         [HttpPost("authenticate")]
-        public IActionResult Authenticate([FromBody]User userParam)
+        public async Task<IActionResult> Authenticate([FromBody]User userParam)
         {
-            var user = userService.Authenticate(userParam.Username, userParam.Password);
+            try
+            {
+                return Ok(await userService.Authenticate(userParam.Username, userParam.Password));
+            }
+            catch (NotAuthenticatedException e)
+            {
+                return BadRequest(new { message = e.Message });
+            }
+            catch (NotAuthorizedException e)
+            {
+                return Unauthorized(new { message = e.Message });
+            }
+            catch (Exception e)
+            {
+                return BadRequest(new { message = "Something went wrong with the service" });
+            }
+        }
 
-            if (user == null)
-                return BadRequest(new { message = "Username or password is incorrect" });
+        [HttpGet("authenticateToken")]
+        public async Task<IActionResult> AuthenticateToken()
+        {
+            try
+            {
+                return Ok(await userService.AuthenticateToken(User.FindFirst(ClaimTypes.NameIdentifier).Value));
+            }
+            catch (NotAuthenticatedException e)
+            {
+                return BadRequest(new { message = e.Message });
+            }
+            catch (NotAuthorizedException e)
+            {
+                return Unauthorized(new { message = e.Message });
+            }
+            catch (Exception e)
+            {
+                return BadRequest(new { message = "Something went wrong with the service" });
+            }
+        }
 
-            return Ok(user);
+        [HttpGet("{username}", Name = "GetUser")]
+        public async Task<IActionResult> Get(string username)
+        {
+            User user = await userService.GetUser(username);
+
+            if (user != null)
+                return Ok(user);
+            else
+                return NotFound($"User {username} not found");
         }
     }
 }
